@@ -123,9 +123,29 @@
     },
   };
 
-  <NavigationContainer linking={linking}>
-    {/* Screens */}
-  </NavigationContainer>
+    <NavigationContainer linking={linking}>
+      {/* Screens */}
+    </NavigationContainer>
   
 
     ``` 
+  ### Ekranlar Arasında Parametre Geçişi 
+    * Parametreler, type-checking sağlamak için route.params ile okunmalıdır.
+    ```jsx
+    // kötü
+    export default function ProfileScreen({ navigation, route }) {
+      const userId = route.params ? route.params.userId : null;
+      
+      return <Text>User ID: {userId}</Text>;
+    }
+
+
+    // iyi
+    export default function ProfileScreen({ route }) {
+    const { userId } = route.params;
+
+    return <Text>User ID: {userId}</Text>;
+    } 
+  
+
+    ```   

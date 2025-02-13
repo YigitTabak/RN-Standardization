@@ -216,4 +216,35 @@ const styles = StyleSheet.create({
 
 ```
 
+### Bildirimler (Push Notifications)
+* iOS ve Android’de bildirim yönetimi, expo-notifications veya react-native-push-notification gibi kütüphanelerle platforma uygun konfigürasyonlarla kullanılmalıdır.
+```jsx
+// kötü
+import { Notifications } from 'expo-notifications';
+
+const sendNotification = async () => {
+  await Notifications.scheduleNotificationAsync({
+    content: { title: 'Bildirim', body: 'Merhaba!' },
+    trigger: { seconds: 5 },
+  });
+};
+
+
+// iyi
+import { Platform } from 'react-native';
+import * as Notifications from 'expo-notifications';
+
+const sendNotification = async () => {
+  if (Platform.OS === 'ios') {
+    await Notifications.requestPermissionsAsync(); //bildirim izni isteniyor
+  }
+
+  await Notifications.scheduleNotificationAsync({
+    content: { title: 'Bildirim', body: 'Merhaba!' },
+    trigger: { seconds: 5 },
+  });
+};
+
+```
+
 
