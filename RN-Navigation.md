@@ -4,7 +4,7 @@
     // kötü
     export default function HomeScreen({ navigation }) {
       return (
-          <Button title="Go to Profile" onPress={() => navigation.navigate('Profle', { userId: 123 })} />
+          <Button title="Go to Profile" onPress={() => navigation.navigate('Profile', { userId: 123 })} />
         );
     }
 
@@ -103,11 +103,17 @@
   ### Navigasyon Stack'ini Temizleme
     * Önceki ekranlara geri dönülmemesi gereken senaryolarda, navigasyon stack'i sıfırlanmalıdır.
     ```jsx
- 
+    // kötü
+    navigation.navigate('Home');
+
+
+    // iyi
     navigation.reset({ 
       index: 0,
       routes: [{ name: 'Details' }],
     });
+ 
+
 
     ``` 
   ### Deep Linking Desteği 
@@ -149,3 +155,36 @@
   
 
     ```   
+  ### Navigasyon İçin Kullanıcı Durumunu Kontrol Etme 
+    * Kullanıcı durumu doğrudan ekranda değil, uygun bir üst bileşende yönetilmelidir.
+    ```jsx
+    // kötü
+    export default function HomeScreen({ navigation, user }) {
+      return (
+        <View>
+          {user ? (
+            <Button title="Go to Dashboard" onPress={() => navigation.navigate('Dashboard')} />
+          ) : (
+            <Text>Please log in</Text>
+          )}
+        </View>
+      );
+    }
+
+
+    // iyi  
+    export default function HomeScreen({ navigation }) {
+      const { user } = useAuth(); // Özel hook ile kullanıcı bilgisini alınıyor
+      return (
+        <View>
+          {user ? (
+            <Button title="Go to Dashboard" onPress={() => navigation.navigate('Dashboard')} />
+          ) : (
+            <Text>Please log in</Text>
+          )}
+        </View>
+      );
+    } 
+  
+
+    ```       

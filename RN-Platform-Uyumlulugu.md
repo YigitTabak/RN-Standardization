@@ -247,4 +247,31 @@ const sendNotification = async () => {
 
 ```
 
+### Durum Çubuğu (StatusBar) Yönetimi
+* iOS ve Android’de durum çubuğu farklı konum ve renk davranışları sergilediğinden, platforma özel ayarlamalar yapılmalıdır.
+```jsx
+// kötü
+import { StatusBar } from 'react-native';
+
+const App = () => {
+  return <StatusBar barStyle="dark-content" />;
+};
+
+
+// iyi
+import { StatusBar, Platform } from 'react-native';
+
+const App = () => {
+  return (
+    <>
+      <StatusBar
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+        backgroundColor={Platform.OS === 'android' ? '#000' : 'transparent'}
+      />
+    </>
+  );
+};
+
+```
+
 
